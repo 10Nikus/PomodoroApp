@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from "react";
+import { CircularProgressbar } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 
 export default function Timer({ time }: { time: number }) {
   const [duration, setDuration] = useState(time * 60 * 1000);
@@ -14,9 +16,16 @@ export default function Timer({ time }: { time: number }) {
   return (
     <div>
       <h1>Timer</h1>
-      <h2>
-        {Math.floor(duration / 60000)}:{((duration % 60000) / 1000).toFixed(0)}
-      </h2>
+      <div style={{ width: 200, height: 200 }}>
+        <CircularProgressbar
+          value={duration}
+          maxValue={time}
+          text={`${Math.floor(duration / 60000)}:${(
+            (duration % 60000) /
+            1000
+          ).toFixed(0)}`}
+        />
+      </div>
     </div>
   );
 }
