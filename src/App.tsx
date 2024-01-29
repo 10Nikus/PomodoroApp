@@ -1,11 +1,12 @@
+import ButtonDiv from "./components/ButtonDiv";
 import Timer from "./components/timer";
 
 function App() {
   return (
-    <>
-      <h1 className="text-stone-300">App W</h1>
+    <div className="flex flex-col items-center justify-center">
       <Timer time={20} />
-    </>
+      <ButtonDiv />
+    </div>
   );
 }
 

@@ -13,17 +13,25 @@ export default function Timer({ time }: { time: number }) {
     }, 1000);
     return () => clearInterval(timerRef.current);
   }, []);
+
+  const timer = `${Math.floor(duration / 60000)}:${(
+    (duration % 60000) /
+    1000
+  ).toFixed(0)}`;
+
+  const paddedTime = timer
+    .split(":")
+    .map((e) => `0${e}`.slice(-2))
+    .join(":");
   return (
-    <div>
-      <h1>Timer</h1>
-      <div style={{ width: 200, height: 200 }}>
+    <div className="flex flex-col items-center ">
+      <h1 className="text-7xl mb-8">Pomodoro</h1>
+      <div style={{ width: 250, height: 250 }}>
         <CircularProgressbar
+          counterClockwise
           value={duration}
-          maxValue={time}
-          text={`${Math.floor(duration / 60000)}:${(
-            (duration % 60000) /
-            1000
-          ).toFixed(0)}`}
+          maxValue={time * 60 * 1000}
+          text={paddedTime}
         />
       </div>
     </div>
