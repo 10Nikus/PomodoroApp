@@ -2,9 +2,16 @@ import { useEffect, useRef, useState } from "react";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
-export default function Timer() {
-  const [duration, setDuration] = useState(20 * 60 * 1000);
+export default function Timer({
+  work,
+  breakTime,
+}: {
+  work: number;
+  breakTime: number;
+}) {
+  const [duration, setDuration] = useState(work * 60 * 1000);
   const [isRunning, setIsRunning] = useState(false);
+  const [mode, setMode] = useState("work");
   const timerRef: any = useRef();
 
   useEffect(() => {
@@ -22,8 +29,13 @@ export default function Timer() {
   }
 
   function handleReset() {
-    setDuration(20 * 60 * 1000);
+    setDuration(work * 60 * 1000);
     setIsRunning(false);
+  }
+
+  if (duration === 0) {
+    setMode((prev) => (prev === "work" ? "break" : "work"));
+    setDuration(mode === "work" ? 5 * 60 * 1000 : work * 60 * 1000);
   }
 
   const timer = `${Math.floor(duration / 60000)}:${(
@@ -47,7 +59,7 @@ export default function Timer() {
         <CircularProgressbar
           counterClockwise
           value={duration}
-          maxValue={20 * 60 * 1000}
+          maxValue={mode === "work" ? work * 60 * 1000 : breakTime * 60 * 1000}
           text={paddedTime}
           styles={{
             text: { fill: "#141010" },
