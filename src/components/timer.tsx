@@ -1,9 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import SettingsIcon from "@mui/icons-material/Settings";
-import ModeNightIcon from "@mui/icons-material/ModeNight";
-import LightModeIcon from "@mui/icons-material/LightMode";
 
 export default function Timer({
   work,
@@ -16,7 +13,6 @@ export default function Timer({
   const [isRunning, setIsRunning] = useState(false);
   const [mode, setMode] = useState("work");
   const timerRef: any = useRef();
-  const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
     timerRef.current = setInterval(() => {
@@ -60,7 +56,6 @@ export default function Timer({
 
   return (
     <div className="flex flex-col items-center ">
-      <h1 className="text-7xl mb-8">Pomodoro</h1>
       <div style={{ width: 250, height: 250 }}>
         <CircularProgressbar
           counterClockwise
@@ -78,26 +73,10 @@ export default function Timer({
         {isRunning ? "Stop" : "Start"}
       </button>
       <button
-        className="absolute right-3 top-2 bg-red-500 rounded-lg p-2 text-white"
+        className="absolute right-3 bottom-2 bg-red-500 rounded-lg p-2 text-white"
         onClick={handleReset}
       >
         Reset
-      </button>
-      <button className="absolute right-3 top-12 flex jutstify-center align-middle p-3">
-        <SettingsIcon />
-      </button>
-      <button>
-        {darkMode ? (
-          <LightModeIcon
-            className="absolute left-3 top-3"
-            onClick={() => setDarkMode(false)}
-          />
-        ) : (
-          <ModeNightIcon
-            className="absolute left-3 top-3"
-            onClick={() => setDarkMode(true)}
-          />
-        )}
       </button>
     </div>
   );
