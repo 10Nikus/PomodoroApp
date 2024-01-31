@@ -2,14 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
-export default function Timer({
-  work,
+const Timer: React.FC<{ workTime: number; breakTime: number }> = ({
+  workTime,
   breakTime,
-}: {
-  work: number;
-  breakTime: number;
-}) {
-  const [duration, setDuration] = useState(work * 60 * 1000);
+}) => {
+  const [duration, setDuration] = useState(workTime * 60 * 1000);
   const [isRunning, setIsRunning] = useState(false);
   const [mode, setMode] = useState("work");
   const timerRef: any = useRef();
@@ -29,13 +26,13 @@ export default function Timer({
   }
 
   function handleReset() {
-    setDuration(work * 60 * 1000);
+    setDuration(workTime * 60 * 1000);
     setIsRunning(false);
   }
 
   if (duration === 0) {
     setMode((prev) => (prev === "work" ? "break" : "work"));
-    setDuration(mode === "work" ? breakTime * 60 * 1000 : work * 60 * 1000);
+    setDuration(mode === "work" ? breakTime * 60 * 1000 : workTime * 60 * 1000);
   }
 
   const timer = `${Math.floor(duration / 60000)}:${(
@@ -49,7 +46,7 @@ export default function Timer({
     .join(":");
 
   const classBtn = isRunning
-    ? "bg-white text-indigo-600 w-64 m-6 p-2 rounded-lg text-center border-2 border-indigo-600"
+    ? "text-indigo-600 w-64 m-6 p-2 rounded-lg text-center border-2 border-indigo-600"
     : "bg-indigo-600 text-stone-200 w-64 m-6 p-2 rounded-lg text-center ";
 
   const bgCol = mode === "work" ? "#4F46E5" : "#71f871";
@@ -60,7 +57,9 @@ export default function Timer({
         <CircularProgressbar
           counterClockwise
           value={duration}
-          maxValue={mode === "work" ? work * 60 * 1000 : breakTime * 60 * 1000}
+          maxValue={
+            mode === "work" ? workTime * 60 * 1000 : breakTime * 60 * 1000
+          }
           text={paddedTime}
           styles={{
             text: { fill: "#141010" },
@@ -80,4 +79,6 @@ export default function Timer({
       </button>
     </div>
   );
-}
+};
+
+export default Timer;

@@ -13,10 +13,10 @@ export default function Header() {
   }
 
   return (
-    <nav className="flex  w-full justify-between">
-      <button onClick={handleMode}>
+    <nav className="flex w-full justify-between">
+      <div onClick={handleMode} className="">
         {colorMode === "light" ? <ModeNightIcon /> : <LightModeIcon />}
-      </button>
+      </div>
       <h1 className="text-7xl mb-8">Pomodoro</h1>
       <SettingsIcon />
     </nav>
