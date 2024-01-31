@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import SettingsIcon from "@mui/icons-material/Settings";
+import ModeNightIcon from "@mui/icons-material/ModeNight";
+import LightModeIcon from "@mui/icons-material/LightMode";
 
 export default function Timer({
   work,
@@ -13,6 +16,7 @@ export default function Timer({
   const [isRunning, setIsRunning] = useState(false);
   const [mode, setMode] = useState("work");
   const timerRef: any = useRef();
+  const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
     timerRef.current = setInterval(() => {
@@ -35,7 +39,7 @@ export default function Timer({
 
   if (duration === 0) {
     setMode((prev) => (prev === "work" ? "break" : "work"));
-    setDuration(mode === "work" ? 5 * 60 * 1000 : work * 60 * 1000);
+    setDuration(mode === "work" ? breakTime * 60 * 1000 : work * 60 * 1000);
   }
 
   const timer = `${Math.floor(duration / 60000)}:${(
@@ -52,6 +56,8 @@ export default function Timer({
     ? "bg-white text-indigo-600 w-64 m-6 p-2 rounded-lg text-center border-2 border-indigo-600"
     : "bg-indigo-600 text-stone-200 w-64 m-6 p-2 rounded-lg text-center ";
 
+  const bgCol = mode === "work" ? "#4F46E5" : "#71f871";
+
   return (
     <div className="flex flex-col items-center ">
       <h1 className="text-7xl mb-8">Pomodoro</h1>
@@ -64,7 +70,7 @@ export default function Timer({
           styles={{
             text: { fill: "#141010" },
             background: { fill: "#606470" },
-            path: { stroke: "#4F46E5" },
+            path: { stroke: bgCol },
           }}
         />
       </div>
@@ -76,6 +82,22 @@ export default function Timer({
         onClick={handleReset}
       >
         Reset
+      </button>
+      <button className="absolute right-3 top-12 flex jutstify-center align-middle p-3">
+        <SettingsIcon />
+      </button>
+      <button>
+        {darkMode ? (
+          <LightModeIcon
+            className="absolute left-3 top-3"
+            onClick={() => setDarkMode(false)}
+          />
+        ) : (
+          <ModeNightIcon
+            className="absolute left-3 top-3"
+            onClick={() => setDarkMode(true)}
+          />
+        )}
       </button>
     </div>
   );
