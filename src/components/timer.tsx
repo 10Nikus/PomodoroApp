@@ -5,7 +5,6 @@ import "react-circular-progressbar/dist/styles.css";
 export default function Timer() {
   const [duration, setDuration] = useState(20 * 60 * 1000);
   const [isRunning, setIsRunning] = useState(false);
-  const [x, setX] = useState(0);
   const timerRef: any = useRef();
 
   useEffect(() => {
@@ -22,6 +21,11 @@ export default function Timer() {
     setIsRunning((prev) => !prev);
   }
 
+  function handleReset() {
+    setDuration(20 * 60 * 1000);
+    setIsRunning(false);
+  }
+
   const timer = `${Math.floor(duration / 60000)}:${(
     (duration % 60000) /
     1000
@@ -35,10 +39,6 @@ export default function Timer() {
   const classBtn = isRunning
     ? "bg-white text-indigo-600 w-64 m-6 p-2 rounded-lg text-center border-2 border-indigo-600"
     : "bg-indigo-600 text-stone-200 w-64 m-6 p-2 rounded-lg text-center ";
-
-  if (duration === 0) {
-    setX((x) => x++);
-  }
 
   return (
     <div className="flex flex-col items-center ">
@@ -58,6 +58,12 @@ export default function Timer() {
       </div>
       <button className={classBtn} onClick={handleClick}>
         {isRunning ? "Stop" : "Start"}
+      </button>
+      <button
+        className="absolute right-3 top-2 bg-red-500 rounded-lg p-2 text-white"
+        onClick={handleReset}
+      >
+        Reset
       </button>
     </div>
   );
