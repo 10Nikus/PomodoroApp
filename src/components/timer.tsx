@@ -8,8 +8,6 @@ function Timer() {
     (state: any) => state.timeSlice
   );
 
-  const isOpen = useSelector((state: any) => state.modalSlice.value);
-
   const [duration, setDuration] = useState(workTime * 60 * 1000);
   const [isRunning, setIsRunning] = useState(false);
   const [mode, setMode] = useState("work");
@@ -72,7 +70,6 @@ function Timer() {
 
   return (
     <div className="flex flex-col items-center ">
-      {isOpen && <h1>Pomodoro</h1>}
       <div style={{ width: 250, height: 250 }}>
         <CircularProgressbar
           counterClockwise

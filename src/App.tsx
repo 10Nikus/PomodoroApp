@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import Header from "./components/Header";
 import Timer from "./components/timer";
+import NestedModal from "./components/Modal";
 
 function App() {
   const colorMode = useSelector((state: any) => state.modeToggle.value);
@@ -14,6 +15,7 @@ function App() {
     <div className={appClass}>
       <Header />
       <Timer />
+      <NestedModal />
     </div>
   );
 }
