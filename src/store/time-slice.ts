@@ -7,9 +7,9 @@ export interface time {
 }
 
 const initialState: time = {
-  workTime: 20,
-  breakTime: 5,
-  longBreakTime: 15,
+  workTime: 1,
+  breakTime: 0.2,
+  longBreakTime: 0.5,
 };
 
 const timeSlice = createSlice({

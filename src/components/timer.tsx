@@ -13,6 +13,7 @@ function Timer() {
   const [duration, setDuration] = useState(workTime * 60 * 1000);
   const [isRunning, setIsRunning] = useState(false);
   const [mode, setMode] = useState("work");
+  const [countBreak, setCountBreak] = useState(0);
   const timerRef: any = useRef();
 
   useEffect(() => {
@@ -35,8 +36,22 @@ function Timer() {
   }
 
   if (duration === 0) {
-    setMode((prev) => (prev === "work" ? "break" : "work"));
-    setDuration(mode === "work" ? breakTime * 60 * 1000 : workTime * 60 * 1000);
+    if (countBreak === 3 && mode === "work") {
+      setMode("longBreak");
+      setDuration(longBreakTime * 60 * 1000);
+      setCountBreak(0);
+    } else if (mode === "work") {
+      setMode("break");
+      setDuration(breakTime * 60 * 1000);
+      setCountBreak((prev) => prev + 1);
+    } else if (mode === "break") {
+      setMode("work");
+      setDuration(workTime * 60 * 1000);
+    } else if (mode === "longBreak") {
+      setMode("work");
+      setDuration(workTime * 60 * 1000);
+      setCountBreak(0);
+    }
   }
 
   const timer = `${Math.floor(duration / 60000)}:${(
