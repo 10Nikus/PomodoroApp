@@ -7,26 +7,27 @@ export interface time {
 }
 
 const initialState: time = {
-  workTime: 1,
-  breakTime: 0.2,
-  longBreakTime: 0.5,
+  workTime: 20,
+  breakTime: 5,
+  longBreakTime: 15,
 };
 
 const timeSlice = createSlice({
   name: "time",
   initialState,
   reducers: {
-    setWorkTime(state, action) {
+    setWorkTime: (state, action) => {
       state.workTime = action.payload;
     },
-    setBreakTime(state, action) {
+    setBreakTime: (state, action) => {
       state.breakTime = action.payload;
     },
-    setLongBreakTime(state, action) {
+    setLongBreakTime: (state, action) => {
       state.longBreakTime = action.payload;
     },
   },
 });
 
-export const { setBreakTime, setWorkTime } = timeSlice.actions;
+export const { setBreakTime, setWorkTime, setLongBreakTime } =
+  timeSlice.actions;
 export default timeSlice.reducer;

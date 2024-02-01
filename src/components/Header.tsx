@@ -19,11 +19,11 @@ export default function Header() {
 
   return (
     <nav className="flex w-full justify-between">
-      <div onClick={handleMode} className="">
+      <div onClick={handleMode} className="ml-2">
         {colorMode === "light" ? <ModeNightIcon /> : <LightModeIcon />}
       </div>
       <h1 className="text-7xl mb-8">Pomodoro</h1>
-      <SettingsIcon onClick={handleToggleModal} />
+      <SettingsIcon className="mr-2" onClick={handleToggleModal} />
     </nav>
   );
 }
