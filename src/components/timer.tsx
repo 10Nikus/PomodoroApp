@@ -8,9 +8,16 @@ function Timer() {
     (state: any) => state.timeSlice
   );
 
+  const theme = useSelector((state: any) => state.modeToggle.value);
+
   const [duration, setDuration] = useState(workTime * 60 * 1000);
+  useEffect(() => {
+    setDuration(workTime * 60 * 1000);
+  }, [workTime, breakTime, longBreakTime]);
+
   const [isRunning, setIsRunning] = useState(false);
   const [mode, setMode] = useState("work");
+
   const [countBreak, setCountBreak] = useState(0);
   const timerRef: any = useRef();
 
@@ -52,21 +59,24 @@ function Timer() {
     }
   }
 
-  const timer = `${Math.floor(duration / 60000)}:${(
-    (duration % 60000) /
-    1000
-  ).toFixed(0)}`;
+  const hours = Math.floor(duration / 3600000);
+  const minutes = Math.floor((duration % 3600000) / 60000);
+  const seconds = ((duration % 60000) / 1000).toFixed(0);
 
-  const paddedTime = timer
-    .split(":")
-    .map((e) => `0${e}`.slice(-2))
-    .join(":");
+  const formattedTime = `${
+    hours ? String(hours).padStart(2, "0") + ":" : ""
+  }${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
 
   const classBtn = isRunning
-    ? "text-indigo-600 w-64 m-6 p-2 rounded-lg text-center border-2 border-indigo-600"
-    : "bg-indigo-600 text-stone-200 w-64 m-6 p-2 rounded-lg text-center ";
+    ? theme === "light"
+      ? "text-indigo-600 w-64 m-6 p-2 rounded-lg text-center border-2 border-indigo-600"
+      : "bg-orange-400 text-black w-64 m-6 p-2 rounded-lg text-center "
+    : theme === "light"
+    ? "bg-indigo-600 text-stone-200 w-64 m-6 p-2 rounded-lg text-center border-2 border-indigo-600"
+    : "text-orange-400 w-64 m-6 p-2 rounded-lg text-center border-2 border-orange-400";
 
   const bgCol = mode === "work" ? "#4F46E5" : "#71f871";
+  const textCol = theme === "light" ? "#000000" : "#FFFFFF";
 
   return (
     <div className="flex flex-col items-center ">
@@ -77,9 +87,9 @@ function Timer() {
           maxValue={
             mode === "work" ? workTime * 60 * 1000 : breakTime * 60 * 1000
           }
-          text={paddedTime}
+          text={formattedTime}
           styles={{
-            text: { fill: "#141010" },
+            text: { fill: textCol },
             background: { fill: "#606470" },
             path: { stroke: bgCol },
           }}

@@ -9,7 +9,7 @@ function App() {
   const appClass =
     colorMode === "light"
       ? "flex flex-col items-center justify-center bg-white text-black w-screen h-screen"
-      : "flex flex-col items-center justify-center bg-stone-900 text-white w-screen h-screen";
+      : "flex flex-col items-center justify-center bg-blue-900 text-orange-400 w-screen h-screen";
 
   return (
     <div className={appClass}>
