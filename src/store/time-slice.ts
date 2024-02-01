@@ -3,11 +3,13 @@ import { createSlice } from "@reduxjs/toolkit";
 export interface time {
   workTime: number;
   breakTime: number;
+  longBreakTime: number;
 }
 
 const initialState: time = {
   workTime: 20,
   breakTime: 5,
+  longBreakTime: 15,
 };
 
 const timeSlice = createSlice({
@@ -19,6 +21,9 @@ const timeSlice = createSlice({
     },
     setBreakTime(state, action) {
       state.breakTime = action.payload;
+    },
+    setLongBreakTime(state, action) {
+      state.longBreakTime = action.payload;
     },
   },
 });

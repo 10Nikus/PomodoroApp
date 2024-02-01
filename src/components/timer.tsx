@@ -1,11 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import { useSelector } from "react-redux";
 
-const Timer: React.FC<{ workTime: number; breakTime: number }> = ({
-  workTime,
-  breakTime,
-}) => {
+function Timer() {
+  const { workTime, breakTime, longBreakTime } = useSelector(
+    (state: any) => state.timeSlice
+  );
+
+  const isOpen = useSelector((state: any) => state.modalSlice.value);
+
   const [duration, setDuration] = useState(workTime * 60 * 1000);
   const [isRunning, setIsRunning] = useState(false);
   const [mode, setMode] = useState("work");
@@ -53,6 +57,7 @@ const Timer: React.FC<{ workTime: number; breakTime: number }> = ({
 
   return (
     <div className="flex flex-col items-center ">
+      {isOpen && <h1>Pomodoro</h1>}
       <div style={{ width: 250, height: 250 }}>
         <CircularProgressbar
           counterClockwise
@@ -79,6 +84,6 @@ const Timer: React.FC<{ workTime: number; breakTime: number }> = ({
       </button>
     </div>
   );
-};
+}
 
 export default Timer;

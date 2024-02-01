@@ -4,7 +4,6 @@ import Timer from "./components/timer";
 
 function App() {
   const colorMode = useSelector((state: any) => state.modeToggle.value);
-  const workTime = useSelector((state: any) => state.timeSlice.workTime);
 
   const appClass =
     colorMode === "light"
@@ -14,7 +13,7 @@ function App() {
   return (
     <div className={appClass}>
       <Header />
-      <Timer workTime={1} breakTime={0.2} />
+      <Timer />
     </div>
   );
 }
