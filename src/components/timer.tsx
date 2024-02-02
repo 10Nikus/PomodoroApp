@@ -1,12 +1,22 @@
 import { useEffect, useRef, useState } from "react";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  startBreak,
+  startLongBreak,
+  pause,
+  startWorking,
+} from "../store/action-slice";
 
 function Timer() {
+  const dispatch = useDispatch();
+
   const { workTime, breakTime, longBreakTime } = useSelector(
     (state: any) => state.timeSlice
   );
+
+  const mode = useSelector((state: any) => state.actionSlice.mode);
 
   const theme = useSelector((state: any) => state.modeToggle.value);
 
@@ -16,8 +26,6 @@ function Timer() {
   }, [workTime, breakTime, longBreakTime]);
 
   const [isRunning, setIsRunning] = useState(false);
-  const [mode, setMode] = useState("work");
-
   const [countBreak, setCountBreak] = useState(0);
   const timerRef: any = useRef();
 
@@ -32,7 +40,8 @@ function Timer() {
   }, [isRunning]);
 
   function handleClick() {
-    setIsRunning((prev) => !prev);
+    if (mode.includes("wait")) {
+    }
   }
 
   function handleReset() {
@@ -40,20 +49,32 @@ function Timer() {
     setIsRunning(false);
   }
 
+  function setLongBreakTime() {
+    dispatch(startLongBreak());
+  }
+
+  function setShortBeakTime() {
+    dispatch(startBreak());
+  }
+
+  function startWork() {
+    dispatch(startWorking());
+  }
+
   if (duration === 0) {
     if (countBreak === 3 && mode === "work") {
-      setMode("longBreak");
+      setLongBreakTime();
       setDuration(longBreakTime * 60 * 1000);
       setCountBreak(0);
     } else if (mode === "work") {
-      setMode("break");
+      setShortBeakTime;
       setDuration(breakTime * 60 * 1000);
       setCountBreak((prev) => prev + 1);
     } else if (mode === "break") {
-      setMode("work");
+      startWork();
       setDuration(workTime * 60 * 1000);
     } else if (mode === "longBreak") {
-      setMode("work");
+      startWork();
       setDuration(workTime * 60 * 1000);
       setCountBreak(0);
     }
@@ -85,7 +106,9 @@ function Timer() {
           counterClockwise
           value={duration}
           maxValue={
-            mode === "work" ? workTime * 60 * 1000 : breakTime * 60 * 1000
+            mode === "work" || "wait"
+              ? workTime * 60 * 1000
+              : breakTime * 60 * 1000
           }
           text={formattedTime}
           styles={{
