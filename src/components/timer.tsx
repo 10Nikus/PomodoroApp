@@ -5,13 +5,11 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   startBreak,
   startLongBreak,
-  pause,
   startWorking,
 } from "../store/action-slice";
 
 function Timer() {
   const dispatch = useDispatch();
-
   const { workTime, breakTime, longBreakTime } = useSelector(
     (state: any) => state.timeSlice
   );
@@ -28,6 +26,10 @@ function Timer() {
   const [isRunning, setIsRunning] = useState(false);
   const [countBreak, setCountBreak] = useState(0);
   const timerRef: any = useRef();
+
+  useEffect(() => {
+    setIsRunning(true);
+  }, [mode]);
 
   useEffect(() => {
     timerRef.current = setInterval(() => {
@@ -118,7 +120,7 @@ function Timer() {
           }}
         />
       </div>
-      <button className={classBtn} onClick={handleClick}>
+      <button className={classBtn} onClick={startWork}>
         {isRunning ? "Stop" : "Start"}
       </button>
       <button
